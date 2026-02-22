@@ -20,13 +20,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       padding: 20px;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Efeito de partículas no fundo */
     body::before {
       content: '';
       position: absolute;
@@ -41,7 +39,7 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       width: 100%;
       text-align: center;
       z-index: 1;
@@ -190,50 +188,12 @@
       opacity: 0.9;
     }
 
-    input[type="email"] {
-      width: 100%;
-      max-width: 400px;
-      padding: 15px 20px;
-      border: 2px solid rgba(102, 126, 234, 0.4);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1em;
-      margin-bottom: 15px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    input[type="email"]:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
-    }
-
-    input[type="email"]::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    button {
-      display: inline-block;
-      padding: 15px 40px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-    }
-
-    button:active {
-      transform: translateY(0);
+    .form-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      overflow: hidden;
     }
 
     .benefits {
@@ -307,13 +267,13 @@
       transform: translateY(-3px);
     }
 
-    /* Responsivo */
     @media (max-width: 768px) {
       h1 { font-size: 2em; }
       .logo { font-size: 3em; }
       .countdown-grid { grid-template-columns: repeat(2, 1fr); }
       .features { grid-template-columns: 1fr; }
       .countdown-number { font-size: 2em; }
+      .email-form { padding: 20px; }
     }
 
     @media (max-width: 480px) {
@@ -393,26 +353,27 @@
       </ul>
     </div>
 
-    <!-- Formulário de Captura -->
+    <!-- Formulário Google Forms -->
     <div class="email-form">
       <h2>🔔 Seja avisado do lançamento!</h2>
-      <p>Cadastre seu e-mail e receba:</p>
+      <p>Cadastre-se e receba:</p>
       <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
         <li style="margin: 10px 0;">✓ Acesso antecipado ao Simuladão</li>
         <li style="margin: 10px 0;">✓ Cupom de desconto exclusivo (30% OFF)</li>
         <li style="margin: 10px 0;">✓ Material bônus: Mapa Mental do Edital</li>
       </ul>
       
-      <form id="capturaEmail">
-        <input 
-          type="email" 
-          id="email" 
-          placeholder="Digite seu melhor e-mail" 
-          required
-        >
-        <br>
-        <button type="submit">Quero Ser Avisado Agora! 🚀</button>
-      </form>
+      <div class="form-container">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdvOAxrUF9C7cVe-7BZkYYkqwJcW5DY6TlGZREQhVLTV2sL-w/viewform?embedded=true" 
+                width="100%" 
+                height="600" 
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0"
+                style="min-height: 500px;">
+          Carregando…
+        </iframe>
+      </div>
       
       <p style="font-size: 0.85em; opacity: 0.6; margin-top: 15px;">
         🔒 Seus dados estão seguros. Não enviamos spam.
@@ -460,49 +421,6 @@
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    // Formulário de Captura de E-mail
-    document.getElementById('capturaEmail').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value;
-      const button = e.target.querySelector('button');
-      const originalText = button.textContent;
-      
-      // Feedback visual
-      button.textContent = 'Enviando...';
-      button.disabled = true;
-      
-      try {
-        // TODO: Integrar com Google Sheets API ou serviço de e-mail
-        // Por enquanto, simulamos o sucesso
-        
-        // Exemplo de integração com Google Sheets:
-        /*
-        const sheetURL = 'SUA_URL_DO_GOOGLE_SHEETS_API';
-        await fetch(sheetURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email, data: new Date().toISOString() })
-        });
-        */
-        
-        // Simulação de sucesso
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        alert('✅ E-mail cadastrado com sucesso!\n\nVocê receberá:\n🔔 Aviso de lançamento\n🎁 Cupom de 30% OFF\n📚 Mapa Mental do Edital\n\nBoa sorte na preparação! 🚀');
-        
-        // Reset form
-        e.target.reset();
-        
-      } catch (error) {
-        console.error('Erro ao cadastrar e-mail:', error);
-        alert('⚠️ Ocorreu um erro ao cadastrar. Tente novamente em alguns minutos.');
-      } finally {
-        button.textContent = originalText;
-        button.disabled = false;
-      }
-    });
 
     // Animação suave ao carregar
     window.addEventListener('load', () => {
